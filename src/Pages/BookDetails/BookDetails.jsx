@@ -1,19 +1,23 @@
 import React from 'react';
+import { useContext } from 'react';
 import { useLoaderData, useParams } from 'react-router';
+import { BookContext } from '../../ Context/BookProvider';
 
 const BookDetails = () => {
   const { id } = useParams();
-  console.log(id);
 
   const books = useLoaderData();
-  console.log(books);
 
   const expectedBook = books.find(book => book.bookId == id);
   console.log(expectedBook);
 
+  const {storedBook, setStoredBook, handleMarkAsRead, handleWishlist} = useContext(BookContext);
+
+  console.log(storedBook);
+
   return (
-    <div className="card grid grid-cols-1 md:grid-cols-2 lg:card-side bg-base-100 shadow-sm mt-3 mx-2.5 items-start mb-4">
-      <figure className="bg-slate-50 rounded-xl py-12">
+    <div className="card grid grid-cols-1 md:grid-cols-2 lg:card-side bg-base-100 shadow-sm mt-3 mx-2.5 items-start mb-4 ">
+      <figure className="bg-slate-50 py-12">
         <img
           src={expectedBook.image} className="w-[250px] h-[350px] md:w-[350px] md:h-[550px] rounded-xl"
           alt="Album" />
@@ -54,8 +58,8 @@ const BookDetails = () => {
         
 
         <div className="card-actions flex gap-2 mt-auto">
-          <button className="btn text-black font-bold">Read</button>
-          <button class="btn btn-accent text-amber-50">Wishlist</button>
+          <button className="btn text-black font-bold" onClick={() => handleMarkAsRead(expectedBook)}>Mark as Read</button>
+          <button class="btn btn-accent text-amber-50" onClick={() => handleWishlist(expectedBook)}>Add to Wishlist</button>
         </div>
       </div>
     </div>
